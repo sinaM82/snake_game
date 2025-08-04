@@ -2,14 +2,14 @@ import turtle
 import random
 import time
 
-# تنظیمات اولیه
+# basic settings
 screen = turtle.Screen()
 screen.title("Snake Game")
 screen.bgcolor("green")
 screen.setup(width=700, height=700)
 screen.tracer(0)
 
-# قاب بازی
+# game cover
 border = turtle.Turtle()
 border.color("black")
 border.pensize(4)
@@ -24,7 +24,7 @@ for side in range(2):
     border.right(90)
 border.hideturtle()
 
-# نمره
+# score
 score = 0
 delay = 0.1
 
@@ -36,7 +36,7 @@ scoring.hideturtle()
 scoring.goto(0, 300)
 scoring.write("Score : 0", align="center", font=("Courier", 24, "bold"))
 
-# مار
+# snake
 snake = turtle.Turtle()
 snake.speed(0)
 snake.shape("square")
@@ -45,7 +45,7 @@ snake.penup()
 snake.goto(0, 0)
 snake.direction = "stop"
 
-# میوه
+# fruit
 fruit = turtle.Turtle()
 fruit.speed(0)
 fruit.shape("circle")
@@ -55,7 +55,7 @@ fruit.goto(30, 30)
 
 old_fruit = []
 
-# توابع حرکت
+# movement functions
 def snake_go_up():
     if snake.direction != "down":
         snake.direction = "up"
@@ -83,7 +83,7 @@ def snake_move():
         x = snake.xcor()
         snake.setx(x + 20)
 
-# دکمه ریستارت
+# restart button
 restart_btn = turtle.Turtle()
 restart_btn.hideturtle()
 restart_btn.penup()
@@ -102,7 +102,7 @@ def on_click_restart(x, y):
         screen.onclick(None)
         restart_game()
 
-# ریست بازی
+# restart the game
 def restart_game():
     global score, delay, old_fruit
     score = 0
@@ -121,21 +121,21 @@ def restart_game():
     restart_btn.hideturtle()
     game_loop()
 
-# کنترل‌ها
+# controls for moving the snake
 screen.listen()
 screen.onkeypress(snake_go_up, "Up")
 screen.onkeypress(snake_go_down, "Down")
 screen.onkeypress(snake_go_left, "Left")
 screen.onkeypress(snake_go_right, "Right")
 
-# حلقه اصلی بازی
+# the main loop for the game
 def game_loop():
     global score, delay
 
     while True:
         screen.update()
 
-        # برخورد با میوه
+        # the snake collision with fruit
         if snake.distance(fruit) < 20:
             x = random.randint(-290, 270)
             y = random.randint(-240, 240)
@@ -152,7 +152,7 @@ def game_loop():
             new_fruit.penup()
             old_fruit.append(new_fruit)
 
-        # حرکت میوه‌های قبلی
+        # the previus fruit movement
         for i in range(len(old_fruit) - 1, 0, -1):
             x = old_fruit[i - 1].xcor()
             y = old_fruit[i - 1].ycor()
@@ -164,7 +164,7 @@ def game_loop():
 
         snake_move()
 
-        # برخورد با دیوار
+        # snake collision with the walls
         if (snake.xcor() > 280 or snake.xcor() < -300 or
             snake.ycor() > 240 or snake.ycor() < -240):
             screen.bgcolor("turquoise")
@@ -175,7 +175,7 @@ def game_loop():
             show_restart_button()
             break
 
-        # برخورد با بدن
+        # snake collision with its body
         for segment in old_fruit:
             if segment.distance(snake) < 20:
                 screen.bgcolor("turquoise")
@@ -190,3 +190,4 @@ def game_loop():
 
 game_loop()
 screen.mainloop()
+
