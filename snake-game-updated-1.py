@@ -102,7 +102,7 @@ def on_click_restart(x, y):
         screen.onclick(None)
         restart_game()
 
-# restart the game
+# restarting the game
 def restart_game():
     global score, delay, old_fruit
     score = 0
@@ -190,4 +190,5 @@ def game_loop():
 
 game_loop()
 screen.mainloop()
+
 
